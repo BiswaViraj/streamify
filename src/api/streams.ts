@@ -54,9 +54,9 @@ export const getTopArtists = async (
     if (!artist) continue;
 
     if (artistCountMap.has(artist.id)) {
-      artistCountMap.get(artist.id)!.count += 1;
+      artistCountMap.get(artist.id)!.count += stream.streamCount;
     } else {
-      artistCountMap.set(artist.id, { artist, count: 1 });
+      artistCountMap.set(artist.id, { artist, count: stream.streamCount });
     }
   }
 

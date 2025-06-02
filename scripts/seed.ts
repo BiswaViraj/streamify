@@ -14,7 +14,7 @@ const DATA_LENGTH = {
   userCount: faker.number.int({ min: 50, max: 1000 }),
   artistCount: faker.number.int({ min: 25, max: 100 }),
   songCount: faker.number.int({ min: 50, max: 500 }),
-  streamCount: faker.number.int({ min: 100, max: 1000 }),
+  streamCount: faker.number.int({ min: 1000, max: 10000 }),
   revenueCount: faker.number.int({ min: 100, max: 500 }),
 };
 
@@ -60,7 +60,7 @@ function generateMockData({
       artistId: song.artistId,
       userId: faker.helpers.arrayElement(users).id,
       dateStreamed: faker.date.recent({ days: 90 }).toISOString(),
-      streamCount: faker.number.int({ min: 1, max: 100 }),
+      streamCount: faker.number.int({ min: 10, max: 1000 }),
     };
   });
 

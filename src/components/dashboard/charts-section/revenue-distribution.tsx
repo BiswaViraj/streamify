@@ -19,6 +19,7 @@ import {
 import { useRevenue } from "@/hooks/useRevenue";
 import dayjs from "dayjs";
 import { Skeleton } from "@/components/ui/skeleton";
+import { formatCurrency } from "@/utils/number";
 
 const startDate = dayjs().subtract(30, "day").toISOString();
 
@@ -98,7 +99,7 @@ export default function RevenueDistribution() {
         <div className="flex items-center gap-2 p-4 pt-2 justify-center w-full">
           <span className="text-sm font-medium">Total Revenue:</span>
           <span className="text-lg font-semibold">
-            ${total.revenue?.toLocaleString() ?? 0}
+            ${formatCurrency(total.revenue) ?? 0}
           </span>
         </div>
       </CardFooter>

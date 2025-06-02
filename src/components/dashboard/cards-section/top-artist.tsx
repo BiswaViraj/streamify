@@ -4,6 +4,7 @@ import { MicVocal, Music } from "lucide-react";
 import InfoCard from "./info-card";
 import type { Artist } from "@/types";
 import { Skeleton } from "@/components/ui/skeleton";
+import { formatNumber } from "@/utils/number";
 
 const startDate = dayjs().subtract(30, "day").toISOString();
 
@@ -47,7 +48,7 @@ const Content = ({
             <Skeleton className="h-[16px] w-[150px] mt-1 rounded" />
           ) : (
             <span className="text-sm text-muted-foreground">
-              {artists[0]?.streamCount.toLocaleString()} streams this month
+              {formatNumber(artists[0]?.streamCount)} streams this month
             </span>
           )}
         </div>

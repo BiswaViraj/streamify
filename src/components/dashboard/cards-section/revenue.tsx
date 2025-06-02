@@ -5,12 +5,13 @@ import InfoCard from "./info-card";
 const startDate = dayjs().subtract(30, "day").toISOString();
 
 export default function Revenue() {
-  const { data } = useRevenue({
+  const { data, isPending } = useRevenue({
     startDate,
   });
 
   return (
     <InfoCard
+      isPending={isPending}
       title="Revenue"
       content={
         <span className="text-lg font-semibold">

@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {
   title: string;
@@ -15,6 +16,7 @@ type Props = {
   action?: React.ReactNode;
   content: React.ReactNode;
   footer?: React.ReactNode;
+  isPending?: boolean;
 };
 
 export default function InfoCard({
@@ -23,15 +25,22 @@ export default function InfoCard({
   action,
   content,
   footer,
+  isPending,
 }: Props) {
   return (
     <Card>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
-        <CardAction>{action} </CardAction>
+        <CardAction>{action}</CardAction>
       </CardHeader>
-      <CardContent>{content}</CardContent>
+      <CardContent>
+        {isPending ? (
+          <Skeleton className="h-[22px] w-[100px] rounded" />
+        ) : (
+          content
+        )}
+      </CardContent>
       {footer ? <CardFooter>{footer}</CardFooter> : null}
     </Card>
   );

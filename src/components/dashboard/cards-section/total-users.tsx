@@ -3,9 +3,10 @@ import InfoCard from "./info-card";
 import { Users } from "lucide-react";
 
 export default function TotalUsers() {
-  const { count } = useUsersCount();
+  const { count, isPending } = useUsersCount();
   return (
     <InfoCard
+      isPending={isPending}
       title="Total Users"
       content={<span className="text-lg font-semibold">{count}</span>}
       action={<Users size={20} />}

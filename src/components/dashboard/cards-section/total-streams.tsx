@@ -4,13 +4,14 @@ import InfoCard from "./info-card";
 import { useUserGrowth } from "@/hooks/useUserGrowth";
 
 export default function TotalStreams() {
-  const { count } = useStreamsCount();
+  const { count, isPending } = useStreamsCount();
   useUserGrowth({
     interval: "week",
     periodCount: 52,
   });
   return (
     <InfoCard
+      isPending={isPending}
       title="Total Streams"
       content={<span className="text-lg font-semibold">{count}</span>}
       action={<ListVideo size={20} />}

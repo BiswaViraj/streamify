@@ -6,12 +6,13 @@ import InfoCard from "./info-card";
 const startDate = dayjs().subtract(30, "day").toISOString();
 
 export default function ActiveUsers() {
-  const { count } = useActiveUsersCount({
+  const { count, isPending } = useActiveUsersCount({
     startDate,
   });
 
   return (
     <InfoCard
+      isPending={isPending}
       title="Active Users"
       content={<span className="text-lg font-semibold">{count}</span>}
       action={<Activity size={20} />}

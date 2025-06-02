@@ -38,7 +38,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <Music className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-medium">Streamify</span>
+                  <span className="font-medium text-xl">Streamify</span>
                 </div>
               </a>
             </SidebarMenuButton>

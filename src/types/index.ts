@@ -1,6 +1,11 @@
 export type SubscriptionType = "free" | "premium";
 export type RevenueSource = "ads" | "subscriptions";
 
+export type PopulatedWith<
+  Base,
+  Populated extends Record<string, unknown>
+> = Omit<Base, keyof Populated> & Populated;
+
 export type User = {
   id: string;
   userName: string;
@@ -23,6 +28,7 @@ export type Song = {
 export type Stream = {
   id: string;
   songId: string;
+  artistId: string;
   userId: string;
   dateStreamed: string;
   streamCount: number;

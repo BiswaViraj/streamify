@@ -1,20 +1,14 @@
+import { getUsersCount } from "@/api/users";
 import { useQuery } from "@tanstack/react-query";
 
 export const useUsersCount = () => {
-  const { data, isLoading, error } = useQuery({
+  const { data, ...rest } = useQuery({
     queryKey: ["usersCount"],
-    queryFn: async () => {
-      const response = await fetch("/api/users/count");
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    },
+    queryFn: getUsersCount,
   });
 
   return {
-    usersCount: data,
-    isLoading,
-    error,
+    count: data,
+    ...rest,
   };
 };

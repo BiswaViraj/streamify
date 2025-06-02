@@ -17,7 +17,7 @@ type Props = {
   footer?: React.ReactNode;
 };
 
-export default function InfoCards({
+export default function InfoCard({
   title,
   description,
   action,
@@ -31,12 +31,8 @@ export default function InfoCards({
         <CardDescription>{description}</CardDescription>
         <CardAction>{action} </CardAction>
       </CardHeader>
-      <CardContent>
-        <p>{content}</p>
-      </CardContent>
-      <CardFooter>
-        <p>{footer}</p>
-      </CardFooter>
+      <CardContent>{content}</CardContent>
+      {footer && <CardFooter>{footer}</CardFooter>}
     </Card>
   );
 }

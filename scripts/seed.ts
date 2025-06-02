@@ -48,19 +48,19 @@ type MockData = {
 };
 
 const DATA_LENGTH = {
-  userCount: 1000,
-  artistCount: 100,
-  songCount: 2500,
-  streamCount: 10000,
-  revenueCount: 300,
+  userCount: faker.number.int({ min: 50, max: 1000 }),
+  artistCount: faker.number.int({ min: 25, max: 100 }),
+  songCount: faker.number.int({ min: 50, max: 500 }),
+  streamCount: faker.number.int({ min: 100, max: 1000 }),
+  revenueCount: faker.number.int({ min: 100, max: 500 }),
 };
 
 function generateMockData({
-  userCount = 1000,
-  artistCount = 100,
-  songCount = 2500,
-  streamCount = 10000,
-  revenueCount = 300,
+  userCount,
+  artistCount,
+  songCount,
+  streamCount,
+  revenueCount,
 }) {
   console.log("START: Users data.");
   const users: User[] = Array.from({ length: userCount }, () => ({
@@ -79,6 +79,7 @@ function generateMockData({
   }));
   console.log(`END: ${artistCount} Artists generated.`);
 
+  console.log("START: Songs data.");
   const songs: Song[] = Array.from({ length: songCount }, () => ({
     id: faker.string.uuid(),
     title: faker.music.songName(),
@@ -87,16 +88,22 @@ function generateMockData({
 
   console.log(`END: ${songCount} Songs generated.`);
 
-  const streams: Stream[] = Array.from({ length: streamCount }, () => ({
-    id: faker.string.uuid(),
-    songId: faker.helpers.arrayElement(songs).id,
-    userId: faker.helpers.arrayElement(users).id,
-    dateStreamed: faker.date.recent({ days: 90 }).toISOString(),
-    streamCount: faker.number.int({ min: 1, max: 100 }),
-  }));
+  console.log("START: Streams data.");
+  const streams: Stream[] = Array.from({ length: streamCount }, () => {
+    const song = faker.helpers.arrayElement(songs);
+    return {
+      id: faker.string.uuid(),
+      songId: song.id,
+      artistId: song.artistId,
+      userId: faker.helpers.arrayElement(users).id,
+      dateStreamed: faker.date.recent({ days: 90 }).toISOString(),
+      streamCount: faker.number.int({ min: 1, max: 100 }),
+    };
+  });
 
   console.log(`END: ${streamCount} Streams generated.`);
 
+  console.log("START: Revenues data.");
   const revenues: Revenue[] = Array.from({ length: revenueCount }, () => ({
     id: faker.string.uuid(),
     userId: faker.helpers.arrayElement(users).id,
@@ -105,7 +112,7 @@ function generateMockData({
     date: faker.date.recent({ days: 90 }).toISOString(),
   }));
 
-  console.log(`END: ${revenueCount}  Revenue generated.`);
+  console.log(`END: ${revenueCount} Revenues generated.`);
 
   const data: MockData = {
     users,

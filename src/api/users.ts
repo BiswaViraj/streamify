@@ -1,21 +1,28 @@
 import type { User } from "@/types";
 import api from "../utils/api";
 
-export const fetchUsers = async (
+const BASE_URL = "/users";
+
+export const getUsers = async (
   page: number,
   limit: number
 ): Promise<User[]> => {
-  const response = await api.get<User[]>(`/users?page=${page}&limit=${limit}`);
+  const queryParams = new URLSearchParams();
+  queryParams.append("_page", page.toString());
+  queryParams.append("_limit", limit.toString());
+  const response = await api.get<User[]>(
+    `${BASE_URL}?${queryParams.toString()}`
+  );
   return response;
 };
 
-export const fetchUserById = async (id: string): Promise<User> => {
-  const response = await api.get<User>(`/users/${id}`);
+export const getUserById = async (id: string): Promise<User> => {
+  const response = await api.get<User>(`${BASE_URL}/${id}`);
   return response;
 };
 
 export const createUser = async (user: Omit<User, "id">): Promise<User> => {
-  const response = await api.post<User>("/users", user);
+  const response = await api.post<User>(`${BASE_URL}`, user);
   return response;
 };
 
@@ -23,21 +30,16 @@ export const updateUser = async (
   id: string,
   user: Partial<User>
 ): Promise<User> => {
-  const response = await api.put<User>(`/users/${id}`, user);
+  const response = await api.put<User>(`${BASE_URL}/${id}`, user);
   return response;
 };
 
 export const deleteUser = async (id: string): Promise<void> => {
-  await api.delete(`/users/${id}`);
+  await api.delete(`${BASE_URL}/${id}`);
 };
 
-export const searchUsers = async (
-  query: string,
-  page: number,
-  limit: number
-): Promise<User[]> => {
-  const response = await api.get<User[]>(`/users/search`, {
-    params: { query, page, limit },
-  });
-  return response;
+export const getUsersCount = async () => {
+  const response = await api.get<User[]>(BASE_URL);
+
+  return response.length;
 };

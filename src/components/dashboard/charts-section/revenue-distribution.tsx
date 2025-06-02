@@ -98,7 +98,7 @@ export default function RevenueDistribution() {
         <div className="flex items-center gap-2 p-4 pt-2 justify-center w-full">
           <span className="text-sm font-medium">Total Revenue:</span>
           <span className="text-lg font-semibold">
-            {total.revenue?.toLocaleString()}
+            ${total.revenue?.toLocaleString() ?? 0}
           </span>
         </div>
       </CardFooter>

@@ -70,7 +70,7 @@ function generateMockData({
   const revenues: Revenue[] = Array.from({ length: revenueCount }, () => ({
     id: faker.string.uuid(),
     userId: faker.helpers.arrayElement(users).id,
-    source: faker.helpers.arrayElement(["ads", "subscriptions"]),
+    source: faker.helpers.arrayElement(["ads", "subscriptions", "merchandise"]),
     amount: faker.number.float({ min: 1, max: 25, fractionDigits: 2 }),
     date: faker.date.recent({ days: 90 }).toISOString(),
   }));

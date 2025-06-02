@@ -18,11 +18,11 @@ import { NavLink, Outlet } from "react-router";
 export default function DashboardLayout() {
   return (
     <SidebarProvider
-    //   style={
-    //     {
-    //       "--sidebar-width": "19rem",
-    //     } as React.CSSProperties
-    //   }
+      style={
+        {
+          "--sidebar-width": "19rem",
+        } as React.CSSProperties
+      }
     >
       <AppSidebar />
       <SidebarInset className="p-4">

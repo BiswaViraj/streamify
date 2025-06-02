@@ -1,43 +1,6 @@
 import { faker } from "@faker-js/faker";
 import fs from "fs";
-
-type SubscriptionType = "free" | "premium";
-type RevenueSource = "ads" | "subscriptions";
-
-type User = {
-  id: string;
-  userName: string;
-  email: string;
-  subscriptionType: SubscriptionType;
-  createdAt: string;
-};
-
-type Artist = {
-  id: string;
-  name: string;
-};
-
-type Song = {
-  id: string;
-  title: string;
-  artistId: string;
-};
-
-type Stream = {
-  id: string;
-  songId: string;
-  userId: string;
-  dateStreamed: string;
-  streamCount: number;
-};
-
-type Revenue = {
-  id: string;
-  userId: string;
-  source: RevenueSource;
-  amount: number;
-  date: string;
-};
+import type { Artist, Revenue, Song, Stream, User } from "../src/types";
 
 type MockData = {
   users: User[];

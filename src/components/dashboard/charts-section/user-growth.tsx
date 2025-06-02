@@ -90,6 +90,7 @@ export default function UserGrowth() {
                   TIME_PERIODS[0]
               )
             }
+            data-testid="select-time-period"
           >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select a time period" />

@@ -1,4 +1,4 @@
-import type { Artist, PopulatedWith, Stream } from "@/types";
+import type { Artist, PopulatedWith, Song, Stream, User } from "@/types";
 import api from "@/utils/api";
 
 export const getActiveUsersCount = async (
@@ -60,9 +60,6 @@ export const getTopArtists = async (
     }
   }
 
-  console.log({
-    streams,
-  });
   const sortedArtists = [...artistCountMap.values()]
     .sort((a, b) => b.count - a.count)
     .map(({ artist, count }) => ({
@@ -71,4 +68,98 @@ export const getTopArtists = async (
     }));
 
   return sortedArtists;
+};
+
+export const getTopStreamedSongs = async (
+  startDate: string,
+  endDate: string = new Date().toISOString(),
+  limit: number = 5
+) => {
+  const querySearchParams = new URLSearchParams();
+  if (startDate) {
+    querySearchParams.append("dateStreamed_gte", startDate);
+  }
+  if (endDate) {
+    querySearchParams.append("dateStreamed_lte", endDate);
+  }
+
+  const streams = await api.get<
+    PopulatedWith<
+      Stream,
+      {
+        song: Song;
+      }
+    >[]
+  >(`/streams?_expand=song&${querySearchParams.toString()}`);
+
+  const songsCountMap = new Map<string, { song: Song; count: number }>();
+  for (const stream of streams) {
+    const song = stream.song;
+    if (!song) continue;
+
+    if (songsCountMap.has(song.id)) {
+      songsCountMap.get(song.id)!.count += stream.streamCount;
+    } else {
+      songsCountMap.set(song.id, { song, count: stream.streamCount });
+    }
+  }
+  const sortedSongs = [...songsCountMap.values()]
+    .sort((a, b) => b.count - a.count)
+    .slice(0, limit)
+    .map(({ song, count }) => ({
+      ...song,
+      streamCount: count,
+    }));
+  return sortedSongs;
+};
+
+// getStreams that will have pagination and filtering
+export const getStreams = async ({
+  startDate = new Date(
+    new Date().setFullYear(new Date().getFullYear() - 1)
+  ).toISOString(),
+  endDate = new Date().toISOString(),
+  // page = 1,
+  // limit = 10,
+  sortBy = "dateStreamed",
+  sortOrder = "desc",
+}: {
+  startDate: string;
+  endDate: string;
+  page: number;
+  limit: number;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+}) => {
+  const querySearchParams = new URLSearchParams();
+  // querySearchParams.append("_page", page.toString());
+  // querySearchParams.append("_limit", limit.toString());
+  if (startDate) {
+    querySearchParams.append("dateStreamed_gte", startDate);
+  }
+  if (endDate) {
+    querySearchParams.append("dateStreamed_lte", endDate);
+  }
+
+  if (sortBy) {
+    querySearchParams.append("_sort", sortBy);
+  }
+  if (sortOrder) {
+    querySearchParams.append("_order", sortOrder);
+  }
+
+  const streams = await api.get<
+    PopulatedWith<
+      Stream,
+      {
+        song: Song;
+        artist: Artist;
+        user: User;
+      }
+    >[]
+  >(
+    `/streams?_expand=song&_expand=artist&_expand=user&${querySearchParams.toString()}`
+  );
+
+  return streams;
 };

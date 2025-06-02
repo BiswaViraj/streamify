@@ -1,5 +1,5 @@
 export type SubscriptionType = "free" | "premium";
-export type RevenueSource = "ads" | "subscriptions";
+export type RevenueSource = "ads" | "subscriptions" | "merchandise";
 
 export type PopulatedWith<
   Base,

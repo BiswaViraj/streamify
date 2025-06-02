@@ -9,7 +9,7 @@ export const useFetchTopArtists = ({
   startDate: string;
   endDate?: string;
 }) => {
-  const { data, ...rest } = useQuery<Artist[]>({
+  const { data, ...rest } = useQuery<(Artist & { streamCount: number })[]>({
     queryKey: [
       "top-artists",
       `top-artists-${startDate}`,

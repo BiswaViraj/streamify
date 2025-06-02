@@ -1,5 +1,6 @@
 import type { User } from "@/types";
 import api from "../utils/api";
+import { getTimeSeries } from "@/utils/charts";
 
 const BASE_URL = "/users";
 
@@ -42,4 +43,18 @@ export const getUsersCount = async () => {
   const response = await api.get<User[]>(BASE_URL);
 
   return response.length;
+};
+
+export const getUserGrowth = async ({
+  interval = "month",
+  periodCount = 12,
+}: {
+  interval?: "day" | "week" | "month" | "year";
+  periodCount?: number;
+}) => {
+  const response = await api.get<User[]>(`${BASE_URL}`);
+
+  const groups = getTimeSeries(response, interval, periodCount);
+
+  return groups;
 };

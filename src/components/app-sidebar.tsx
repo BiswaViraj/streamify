@@ -18,10 +18,10 @@ const data = [
     title: "Home",
     url: ROUTES.HOME,
   },
-  {
-    title: "Users",
-    url: ROUTES.USERS,
-  },
+  // {
+  //   title: "Users",
+  //   url: ROUTES.USERS,
+  // },
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {

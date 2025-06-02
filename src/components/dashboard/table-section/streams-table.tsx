@@ -136,7 +136,7 @@ export function StreamsTable<TData, TValue>({
         </TableBody>
       </Table>
       <Separator className="my-4" />
-      <div className="space-x-2 pt-2 p-4">
+      <div className="space-x-2 pt-2 p-4 flex items-center">
         <Button
           variant="outline"
           size="sm"
@@ -153,6 +153,13 @@ export function StreamsTable<TData, TValue>({
         >
           Next
         </Button>
+        <div className="text-sm text-muted-foreground">
+          Page{" "}
+          <strong>
+            {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()}
+          </strong>
+        </div>
       </div>
     </div>
   );

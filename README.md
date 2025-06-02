@@ -52,7 +52,7 @@ pnpm test
 
 ### Trade-offs
 
-- The application uses JSON Server for mock data, which is suitable for development but not recommended for production.
+- The application uses JSON Server for mock data, which is suitable for development but not recommended for production and had to do many workarounds to make it work with relationships.
 - The application uses Faker.js to generate mock data, which is useful for testing but may not reflect real-world scenarios.
 - Table pagination is implemented on the client side, which may not be efficient for large datasets. In a production scenario, server-side pagination would be more appropriate.
 

@@ -5,6 +5,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -17,11 +18,12 @@ import {
 } from "@/components/ui/chart";
 import { useRevenue } from "@/hooks/useRevenue";
 import dayjs from "dayjs";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const startDate = dayjs().subtract(30, "day").toISOString();
 
 export default function RevenueDistribution() {
-  const { data } = useRevenue({
+  const { data, isPending } = useRevenue({
     startDate,
   });
 
@@ -73,25 +75,33 @@ export default function RevenueDistribution() {
           <CardTitle>Revenue Distribution</CardTitle>
           <CardDescription>Total revenue for the last 3 months</CardDescription>
         </div>
-        <div className="flex items-center gap-2 px-4">
+      </CardHeader>
+      <CardContent className="px-2 sm:p-4">
+        {isPending ? (
+          <div className="flex items-center justify-center h-[250px] w-full">
+            <Skeleton className="flex items-center justify-center h-[175px] w-[175px] rounded-full" />
+          </div>
+        ) : (
+          <ChartContainer
+            config={chartConfig}
+            className="aspect-auto h-[250px] w-full"
+          >
+            <PieChart>
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <Pie dataKey="amount" data={chartData} nameKey="source" />
+              <ChartLegend />
+            </PieChart>
+          </ChartContainer>
+        )}
+      </CardContent>
+      <CardFooter className="w-full">
+        <div className="flex items-center gap-2 p-4 justify-center w-full">
           <span className="text-sm font-medium">Total Revenue:</span>
           <span className="text-lg font-semibold">
             {total.revenue?.toLocaleString()}
           </span>
         </div>
-      </CardHeader>
-      <CardContent className="px-2 sm:p-4">
-        <ChartContainer
-          config={chartConfig}
-          className="aspect-auto h-[250px] w-full"
-        >
-          <PieChart>
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <Pie dataKey="amount" data={chartData} nameKey="source" />
-            <ChartLegend />
-          </PieChart>
-        </ChartContainer>
-      </CardContent>
+      </CardFooter>
     </Card>
   );
 }

@@ -15,6 +15,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useUserGrowth } from "@/hooks/useUserGrowth";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const chartConfig = {
   users: {
@@ -27,17 +28,19 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function UserGrowth() {
-  const { growth: chartData } = useUserGrowth({
+  const { growth: chartData, isPending } = useUserGrowth({
     interval: "month",
     periodCount: 12,
   });
 
-  const total = React.useMemo(
-    () => ({
-      users: chartData.reduce((acc, curr) => acc + curr.count, 0),
-    }),
+  const totalUsers = React.useMemo(
+    () => chartData.reduce((acc, curr) => acc + curr.count, 0),
     [chartData]
   );
+
+  if (isPending) {
+    return <Skeleton className="h-[450px] w-full rounded-md" />;
+  }
 
   return (
     <Card className="py-4 sm:py-0">
@@ -49,7 +52,7 @@ export default function UserGrowth() {
         <div className="flex items-center gap-2 px-4">
           <span className="text-sm font-medium">Total Users:</span>
           <span className="text-lg font-semibold">
-            {total.users.toLocaleString()}
+            {totalUsers.toLocaleString()}
           </span>
         </div>
       </CardHeader>
@@ -101,10 +104,9 @@ export default function UserGrowth() {
             <Line
               dataKey="count"
               type="monotone"
-              stroke={`var(--color-count)`}
+              stroke={chartConfig.count.color}
               strokeWidth={2}
               dot={false}
-              data={chartData}
             />
           </LineChart>
         </ChartContainer>

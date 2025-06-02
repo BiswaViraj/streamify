@@ -1,14 +1,10 @@
 import { useStreamsCount } from "@/hooks/useStreamsCount";
 import { ListVideo } from "lucide-react";
 import InfoCard from "./info-card";
-import { useUserGrowth } from "@/hooks/useUserGrowth";
 
 export default function TotalStreams() {
   const { count, isPending } = useStreamsCount();
-  useUserGrowth({
-    interval: "week",
-    periodCount: 52,
-  });
+
   return (
     <InfoCard
       isPending={isPending}

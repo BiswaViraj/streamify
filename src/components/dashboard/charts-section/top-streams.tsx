@@ -10,6 +10,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useTopStreamedSongs } from "@/hooks/useTopStreamedSongs";
 import dayjs from "dayjs";
 import React from "react";
@@ -24,7 +25,7 @@ const CHART_CONFIG = {
 };
 
 export default function TopStreams() {
-  const { topStreamedSongs } = useTopStreamedSongs({
+  const { topStreamedSongs, isPending } = useTopStreamedSongs({
     startDate,
     limit: 5,
   });
@@ -46,25 +47,35 @@ export default function TopStreams() {
         </div>
       </CardHeader>
       <CardContent className="px-2 sm:p-4">
-        <ChartContainer
-          config={CHART_CONFIG}
-          className="aspect-auto h-[250px] w-full"
-        >
-          <BarChart data={chartData}>
-            <ChartTooltip
-              content={<ChartTooltipContent nameKey="streamCount" />}
-            />
-            <CartesianGrid vertical={false} />
-            <XAxis dataKey="title" hide />
-            <YAxis
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              dataKey="streamCount"
-            />
-            <Bar dataKey="streamCount" />
-          </BarChart>
-        </ChartContainer>
+        {isPending ? (
+          <div className="flex gap-16 h-[250px]">
+            <Skeleton className="h-full flex-1" />
+            <Skeleton className="h-full flex-1" />
+            <Skeleton className="h-full flex-1" />
+            <Skeleton className="h-full flex-1" />
+            <Skeleton className="h-full flex-1" />
+          </div>
+        ) : (
+          <ChartContainer
+            config={CHART_CONFIG}
+            className="aspect-auto h-[250px] w-full"
+          >
+            <BarChart data={chartData}>
+              <ChartTooltip
+                content={<ChartTooltipContent nameKey="streamCount" />}
+              />
+              <CartesianGrid vertical={false} />
+              <XAxis dataKey="title" hide />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                dataKey="streamCount"
+              />
+              <Bar dataKey="streamCount" />
+            </BarChart>
+          </ChartContainer>
+        )}
       </CardContent>
     </Card>
   );

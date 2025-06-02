@@ -3,6 +3,18 @@ import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 dayjs.extend(isSameOrBefore);
 
+/**
+ * Get the time series data for user growth.
+ * @param users - The list of users to analyze.
+ * @param interval - The time interval to group by (e.g., day, week, month).
+ * @param periodCount - The number of periods to include in the analysis.
+ * @returns An array of objects representing the user growth over time.
+ *
+ * This function groups users by their creation date into specified time intervals
+ * and counts how many users were created in each interval. It returns an array
+ * of objects, each containing a label (formatted date) and the count of users
+ * created in that interval.
+ */
 export function getTimeSeries(
   users: User[],
   interval: dayjs.ManipulateType,

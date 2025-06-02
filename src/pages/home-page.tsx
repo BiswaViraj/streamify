@@ -1,8 +1,18 @@
-import CardsSection from "@/components/dashboard/cards-section/cards-section";
-import RevenueDistribution from "@/components/dashboard/charts-section/revenue-distribution";
-import TopStreams from "@/components/dashboard/charts-section/top-streams";
-import UserGrowth from "@/components/dashboard/charts-section/user-growth";
-import StreamsList from "@/components/dashboard/streams-list";
+import { lazy } from "react";
+
+const CardsSection = lazy(
+  () => import("@/components/dashboard/cards-section/cards-section")
+);
+const RevenueDistribution = lazy(
+  () => import("@/components/dashboard/charts-section/revenue-distribution")
+);
+const TopStreams = lazy(
+  () => import("@/components/dashboard/charts-section/top-streams")
+);
+const UserGrowth = lazy(
+  () => import("@/components/dashboard/charts-section/user-growth")
+);
+const StreamsList = lazy(() => import("@/components/dashboard/streams-list"));
 
 export default function HomePage() {
   return (

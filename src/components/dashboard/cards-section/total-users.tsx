@@ -7,8 +7,13 @@ export default function TotalUsers() {
   return (
     <InfoCard
       title="Total Users"
-      content={count}
+      content={<span className="text-lg font-semibold">{count}</span>}
       action={<Users size={20} />}
+      footer={
+        <span className="text-sm text-muted-foreground">
+          Total number of users registered in the system.
+        </span>
+      }
     />
   );
 }

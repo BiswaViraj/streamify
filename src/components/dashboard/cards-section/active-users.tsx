@@ -13,8 +13,13 @@ export default function ActiveUsers() {
   return (
     <InfoCard
       title="Active Users"
-      content={count}
+      content={<span className="text-lg font-semibold">{count}</span>}
       action={<Activity size={20} />}
+      footer={
+        <span className="text-sm text-muted-foreground">
+          Number of users who have streamed a song in the last 30 days.
+        </span>
+      }
     />
   );
 }

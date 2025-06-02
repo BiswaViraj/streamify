@@ -32,7 +32,7 @@ export default function InfoCard({
         <CardAction>{action} </CardAction>
       </CardHeader>
       <CardContent>{content}</CardContent>
-      {footer && <CardFooter>{footer}</CardFooter>}
+      {footer ? <CardFooter>{footer}</CardFooter> : null}
     </Card>
   );
 }

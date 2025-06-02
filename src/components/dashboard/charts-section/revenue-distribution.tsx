@@ -69,7 +69,7 @@ export default function RevenueDistribution() {
   );
 
   return (
-    <Card className="py-4 sm:py-0">
+    <Card className="py-4 sm:py-0 gap-2">
       <CardHeader className="flex flex-col items-stretch border-b !p-0 sm:flex-row h-28">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 pb-3 sm:pb-0">
           <CardTitle>Revenue Distribution</CardTitle>
@@ -95,7 +95,7 @@ export default function RevenueDistribution() {
         )}
       </CardContent>
       <CardFooter className="w-full">
-        <div className="flex items-center gap-2 p-4 justify-center w-full">
+        <div className="flex items-center gap-2 p-4 pt-2 justify-center w-full">
           <span className="text-sm font-medium">Total Revenue:</span>
           <span className="text-lg font-semibold">
             {total.revenue?.toLocaleString()}

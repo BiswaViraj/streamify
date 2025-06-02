@@ -1,5 +1,6 @@
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -10,13 +11,21 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTopStreamedSongs } from "@/hooks/useTopStreamedSongs";
-import dayjs from "dayjs";
+import { TIME_PERIODS } from "@/utils/formatDate";
+
 import React from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
-
-const startDate = dayjs().subtract(30, "day").toISOString();
 
 const CHART_CONFIG = {
   streamCount: {
@@ -25,8 +34,9 @@ const CHART_CONFIG = {
 };
 
 export default function TopStreams() {
+  const [timePeriod, setTimePeriod] = React.useState(TIME_PERIODS[0]);
   const { topStreamedSongs, isPending } = useTopStreamedSongs({
-    startDate,
+    startDate: timePeriod.value,
     limit: 5,
   });
 
@@ -43,8 +53,34 @@ export default function TopStreams() {
       <CardHeader className="flex flex-col items-stretch border-b !p-0 sm:flex-row h-28">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 pb-3 sm:pb-0">
           <CardTitle>Top 5 songs</CardTitle>
-          <CardDescription>in the last 30days</CardDescription>
+          <CardDescription>
+            in the <span className="lowercase">{timePeriod.label}</span>
+          </CardDescription>
         </div>
+        <CardAction className="h-full flex items-center px-4">
+          <Select
+            value={timePeriod.value}
+            onValueChange={(value) =>
+              setTimePeriod(
+                TIME_PERIODS.find((p) => p.value === value) || TIME_PERIODS[0]
+              )
+            }
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select a time period" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Time Period</SelectLabel>
+                {TIME_PERIODS.map((period) => (
+                  <SelectItem key={period.value} value={period.value}>
+                    {period.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </CardAction>
       </CardHeader>
       <CardContent className="px-2 sm:p-4">
         {isPending ? (

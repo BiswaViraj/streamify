@@ -1,11 +1,12 @@
 import { getUserGrowth } from "@/api/users";
 import { useQuery } from "@tanstack/react-query";
+import type dayjs from "dayjs";
 
 export const useUserGrowth = ({
   interval,
   periodCount,
 }: {
-  interval?: "day" | "week" | "month" | "year";
+  interval?: dayjs.ManipulateType;
   periodCount?: number;
 } = {}) => {
   const { data, ...rest } = useQuery({

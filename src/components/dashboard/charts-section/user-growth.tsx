@@ -3,6 +3,7 @@ import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -16,6 +17,16 @@ import {
 } from "@/components/ui/chart";
 import { useUserGrowth } from "@/hooks/useUserGrowth";
 import { Skeleton } from "@/components/ui/skeleton";
+import type dayjs from "dayjs";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const chartConfig = {
   users: {
@@ -27,10 +38,24 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+type TimePeriod = {
+  interval: dayjs.ManipulateType;
+  periodCount: number;
+  label: string;
+};
+const TIME_PERIODS: TimePeriod[] = [
+  { label: "Last 3 Months", interval: "month", periodCount: 3 },
+  { label: "Last 6 Months", interval: "month", periodCount: 6 },
+  { label: "Last 12 Months", interval: "month", periodCount: 12 },
+];
+
 export default function UserGrowth() {
+  const [timePeriod, setTimePeriod] = React.useState<TimePeriod>(
+    TIME_PERIODS[2]
+  );
   const { growth: chartData, isPending } = useUserGrowth({
-    interval: "month",
-    periodCount: 12,
+    interval: timePeriod.interval,
+    periodCount: timePeriod.periodCount,
   });
 
   const totalUsers = React.useMemo(
@@ -55,6 +80,35 @@ export default function UserGrowth() {
             {totalUsers.toLocaleString()}
           </span>
         </div>
+        <CardAction className="h-full flex items-center px-4">
+          <Select
+            value={timePeriod.periodCount.toString()}
+            defaultValue={TIME_PERIODS[2].periodCount.toString()}
+            onValueChange={(value) =>
+              setTimePeriod(
+                TIME_PERIODS.find((p) => p.periodCount.toString() === value) ||
+                  TIME_PERIODS[0]
+              )
+            }
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select a time period" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Time Period</SelectLabel>
+                {TIME_PERIODS.map((period) => (
+                  <SelectItem
+                    key={period.periodCount}
+                    value={period.periodCount.toString()}
+                  >
+                    {period.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </CardAction>
       </CardHeader>
       <CardContent className="px-2 sm:p-6">
         <ChartContainer

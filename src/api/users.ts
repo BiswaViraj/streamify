@@ -1,6 +1,7 @@
 import type { User } from "@/types";
 import api from "../utils/api";
 import { getTimeSeries } from "@/utils/charts";
+import type dayjs from "dayjs";
 
 const BASE_URL = "/users";
 
@@ -49,7 +50,7 @@ export const getUserGrowth = async ({
   interval = "month",
   periodCount = 12,
 }: {
-  interval?: "day" | "week" | "month" | "year";
+  interval?: dayjs.ManipulateType;
   periodCount?: number;
 }) => {
   const response = await api.get<User[]>(`${BASE_URL}`);

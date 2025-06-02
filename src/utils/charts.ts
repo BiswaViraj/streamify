@@ -5,7 +5,7 @@ dayjs.extend(isSameOrBefore);
 
 export function getTimeSeries(
   users: User[],
-  interval: "day" | "week" | "month" | "year",
+  interval: dayjs.ManipulateType,
   periodCount: number
 ) {
   const now = dayjs();
@@ -38,7 +38,7 @@ export function getTimeSeries(
   }));
 }
 
-function getFormat(interval: "day" | "week" | "month" | "year") {
+function getFormat(interval: dayjs.ManipulateType) {
   switch (interval) {
     case "day":
     case "week":
